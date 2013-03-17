@@ -6,7 +6,7 @@ describe Gexp::Command::Object do
   context "Команда pick на объекте у себя в локации" do
 
     before do
-      @user    = Fabricate(:user)
+      @user    = UserExample.new
       @request = HashWithIndifferentAccess.new({ 
         :params => {
           :sended_at => 123456789.012,
@@ -17,7 +17,7 @@ describe Gexp::Command::Object do
             :stage => { x: 100, y: 200 },
             :rewards => { energy: -1, exp: 5 },
             :timestamp => 123456789.012,
-            :object => { 'item.stage.house' => '55a55' },
+            :object => { 'item_example' => '55a55' },
             :transition => { :builded => :builded },
             :seed => 532434234,
           }]
@@ -27,7 +27,7 @@ describe Gexp::Command::Object do
       @object = Object.new
       @context  = Object.new
 
-      stub(Item::Stage::House).find.with('55a55') { @object }
+      stub(ItemExample).find.with('55a55') { @object }
 
       lambda {
         @command = Gexp::Command::Object.new @request[:params][:commands].first

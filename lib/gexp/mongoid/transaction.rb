@@ -1,4 +1,5 @@
 require 'singleton'
+require 'mongoid'
 
 # Gexp::Mongoid::Transaction::Observer.started?
 

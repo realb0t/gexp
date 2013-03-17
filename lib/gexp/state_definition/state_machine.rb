@@ -14,6 +14,10 @@ module Gexp
           state_aliases = [ :all, :any ]
 
           self.instance_eval do
+            unless self.methods.include?("state_machine")
+              extend ::StateMachine::MacroMethods
+            end
+
             state_machine initial: sm[:initial] do
 
               # Внешний хук от Handlers

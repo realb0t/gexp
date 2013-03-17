@@ -14,3 +14,10 @@ module Gexp
     end
   end
 end
+
+Dir["#{File.dirname(__FILE__)}/gexp/**/*.rb"].sort.each do |path|
+  require path
+end
+
+require "#{File.dirname(__FILE__)}/examples/user_example"
+require "#{File.dirname(__FILE__)}/examples/item_example"

@@ -1,12 +1,12 @@
 # encoding: utf-8
-require File.join(File.dirname(__FILE__), '..', '..', 'spec_helper.rb')
+require File.join(File.dirname(__FILE__), '..', 'spec_helper.rb')
 
 describe Gexp::Command do
 
   context "Базовый функционал команды" do
 
     before do
-      @user    = Fabricate(:user)
+      @user    = UserExample.new
       @request = HashWithIndifferentAccess.new({
         :params => {
                 :event => :command_event, 

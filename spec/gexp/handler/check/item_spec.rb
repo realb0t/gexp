@@ -1,10 +1,10 @@
 # encoding: utf-8
-require File.join(File.dirname(__FILE__), '..', '..', '..', '..', 'spec_helper.rb')
+require File.join(File.dirname(__FILE__), '..', '..', '..', 'spec_helper.rb')
 
 describe Gexp::Handler::Check::Item do
 
   before do
-    @user   = User.new
+    @user   = UserExample.new
     @object = Object.new
 
     subject.user   = @user

@@ -24,6 +24,8 @@ module Gexp
 
         def load_object
           if @params[:object]
+            #require 'pry'
+            #binding.pry
             label  = @params[:object].keys.first
             id     = @params[:object].values.first
             @object = Gexp.label_to_class(label).find(id)

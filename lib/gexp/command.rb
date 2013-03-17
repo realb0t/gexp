@@ -1,6 +1,10 @@
 # encoding: utf-8
+require 'state_machine/core'
+
 module Gexp
   class Command
+
+    extend StateMachine::MacroMethods
 
     attr_accessor :errors
     attr_accessor :context

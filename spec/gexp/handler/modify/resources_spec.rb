@@ -1,11 +1,11 @@
 # encoding: utf-8
-require File.join(File.dirname(__FILE__), '..', '..', '..', '..', 'spec_helper.rb')
+require File.join(File.dirname(__FILE__), '..', '..', '..', 'spec_helper.rb')
 
 describe Gexp::Handler::Modify::Resources do
 
   before do
-    @user   = User.new
-    @object = Item.new
+    @user   = UserExample.new
+    @object = ItemExample.new
 
     subject.user   = @user
     subject.object = @object

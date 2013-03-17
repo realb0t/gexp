@@ -1,5 +1,5 @@
-require File.join(APP_ROOT, 'lib', 'gexp', 'state_definition')
-require File.join(APP_ROOT, 'lib', 'gexp', 'state_definition', 'state_machine')
+require File.join('gexp', 'state_definition')
+require File.join('gexp', 'state_definition', 'state_machine')
 
 module Gexp
   module Object
