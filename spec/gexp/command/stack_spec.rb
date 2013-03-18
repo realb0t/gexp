@@ -16,7 +16,7 @@ describe Gexp::Command::Stack do
               :stage => { x: 100, y: 200 },
               :rewards => { energy: -1, exp: 5 },
               :timestamp => 123456789.012,
-              :objects => [{ 'item.stage.house' => '50c12939584aa5488a000001' }],
+              :objects => { 'item_example' => '50c12939584aa5488a000001' },
               :transition => { :builded => :builded },
               :timestamp => 123456789.010,
               :seed => 532434234,
@@ -26,21 +26,21 @@ describe Gexp::Command::Stack do
               :uid => '<friend_uid>',
               :rewards => { energy: -1, exp: 5 },
               :timestamp => 123456789.012,
-              :objects => [{ 'item.stage.house' => '50c12939584aa5488a000001' }],
+              :objects => { 'item_example' => '50c12939584aa5488a000002' },
               :transition => { :builded => :builded },
               :timestamp => 123456789.011,
               :seed => 532434234,
             }, { # создание здания
               :event => :create,
               :stage => { x: 100, y: 200 },
-              :objects => [{ 'item.stage.house' => '50c12939584aa5488a000001' }],
+              :objects => { 'item_example' => '50c12939584aa5488a000003' },
               :reward => { gold: -100 },
               :timestamp => 123456789.012,
               :seed => 532434234,
             }, { # создание контракта
               :event => :pick,
               :stage => { x: 100, y: 200 },
-              :objects => [{ 'item.stage.house' => '50c12939584aa5488a000001' }],
+              :objects => { 'item_example' => '50c12939584aa5488a000004' },
               :timestamp => 123456789.013,
               :seed => 532412334,
             },
@@ -49,7 +49,18 @@ describe Gexp::Command::Stack do
       })
     }
 
+    let(:item1) { ItemExample.new }
+    let(:item2) { ItemExample.new }
+    let(:item3) { ItemExample.new }
+    let(:item4) { ItemExample.new }
+
     before do
+
+      stub(ItemExample).find('50c12939584aa5488a000001') { item1 }
+      stub(ItemExample).find('50c12939584aa5488a000002') { item2 }
+      stub(ItemExample).find('50c12939584aa5488a000003') { item3 }
+      stub(ItemExample).find('50c12939584aa5488a000004') { item4 }
+
       @user = UserExample.new
       @request = request
     end

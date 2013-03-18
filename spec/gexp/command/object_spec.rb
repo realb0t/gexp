@@ -13,13 +13,13 @@ describe Gexp::Command::Object do
           :create_at => 123456789.012,
           :commands => [{ 
             # У себя на карте
-            :event => :pick, 
-            :stage => { x: 100, y: 200 },
-            :rewards => { energy: -1, exp: 5 },
-            :timestamp => 123456789.012,
-            :object => { 'item_example' => '55a55' },
+            :event      => :pick, 
+            :stage      => { x: 100, y: 200 },
+            :rewards    => { energy: -1, exp: 5 },
+            :timestamp  => 123456789.012,
+            :objects    => { 'item_example' => '55a55' },
             :transition => { :builded => :builded },
-            :seed => 532434234,
+            :seed       => 532434234,
           }]
         }
       })
@@ -46,7 +46,7 @@ describe Gexp::Command::Object do
 
     it "Нельзя (так просто взять и) создать команду без параметра-объекта" do
       params = @request[:params][:commands].first
-      params.delete(:object)
+      params.delete(:objects)
       lambda {
         @command = Gexp::Command::Object.new params
       }.should raise_error Regexp.new("Can't find object")

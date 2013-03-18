@@ -14,7 +14,7 @@ module Gexp
       end
 
       def build_command(command_param = {})
-        Gexp::Command.new(command_param)
+        Gexp::Command::Object.new(command_param)
       end
 
       def fill(request = nil)

@@ -22,11 +22,8 @@ module Gexp
     end
 
     def receive
-      @stack.map do |command|
-        Gexp::Mongoid::Transaction.with do |context|
-          command.perform
-        end
-      end
+      raise NotImplementedError.new \
+        "Abstract receiver class"
     end
 
   end

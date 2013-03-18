@@ -23,11 +23,9 @@ module Gexp
       protected
 
         def load_object
-          if @params[:object]
-            #require 'pry'
-            #binding.pry
-            label  = @params[:object].keys.first
-            id     = @params[:object].values.first
+          if @params[:objects]
+            label   = @params[:objects].keys.first
+            id      = @params[:objects].values.first
             @object = Gexp.label_to_class(label).find(id)
           else
             raise "Can't find object params"
