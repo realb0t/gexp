@@ -25,8 +25,6 @@ class ItemExample
 
   end
 
-  attr_accessor :current_command
-
   include Mongoid::Document
 
   field :state, type: String, default: 'created'
