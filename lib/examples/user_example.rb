@@ -1,5 +1,7 @@
 class UserExample
+
   include Mongoid::Document
+  include Gexp::User
 
   field :energy, type: Integer
   field :exp, type: Integer
@@ -11,4 +13,5 @@ class UserExample
 
   def after_change!(param)
   end
+
 end
