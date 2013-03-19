@@ -54,17 +54,48 @@ describe Gexp::Command::Object do
 
     context "#perform" do
 
-      it "При успешном выполнении должен вызывать соотвествующее соьытие у объекта" do
+      it "должен вызывать соотвествующее соьытие у объекта" do
         mock(@object).pick.with_any_args.once { true }
         @command.perform
         @command.should be_done
       end
 
-      context "Без мока" do
+      context "при успешном выполнении команды" do
 
-        it "могу вызвать команду" do
-          @command.perform 
+        it "до вызова объект в первоначальном состоянии" do
+          @object.should be_created
         end
+
+        it "ошибок быть не должно" do
+          @command.perform
+          @command.errors.should be_empty
+        end
+
+        it "состояние у объекта меняется" do
+          @command.perform
+          @object.should be_prebuilded
+        end
+
+        it "у объекта вызываются калбеки" do
+          mock(@object).modify_handlers(anything)
+          mock(@object).check_handlers(anything)
+          mock(@object).before_event(anything)
+          mock(@object).after_event(anything)
+
+          @command.perform
+        end
+
+        it "вызываются конструкторы обработчиков"
+
+        it "у обработчиков действия вызывается #perform"
+
+      end
+
+      context "при ошибке обработчика" do
+
+        it "последующие обработчики не вызываются"
+
+        it "состояние объекта не"
 
       end
 
@@ -75,13 +106,14 @@ describe Gexp::Command::Object do
         end
 
         it "Команда должна находится в статусе failed" do
-          @command.perform
+          lambda { @command.perform }.should_not raise_error
           @command.should be_failed
         end
 
-        it "исключение должно агрегироваться в соотвествующем поле" do
+        it "исключение должно агрегироваться в #errors" do
           @command.perform
           @command.errors.should_not be_empty
+          @command.errors.last.message.should == 'Something wrong'
         end
 
       end

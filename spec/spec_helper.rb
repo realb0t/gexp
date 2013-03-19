@@ -5,6 +5,9 @@ require 'gexp'
 
 ENV["MONGO_URL"] ||= ENV["MONGOHQ_URL"] || "mongodb://localhost/gexp_test"
 
+require 'mongoid'
+Mongoid.load!(File.join(File.dirname(__FILE__), 'mongoid.yml'), :test)
+
 RSpec.configure do |conf|
   #conf.include Rack::Test::Methods
   conf.include Mongoid::Matchers

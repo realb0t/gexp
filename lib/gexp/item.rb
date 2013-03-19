@@ -49,7 +49,7 @@ module Gexp
       raise unless self.on_error(e)
     end
 
-    def actor_support(actor)
+    def actor_support?(actor)
       !actor.nil?
     end
 

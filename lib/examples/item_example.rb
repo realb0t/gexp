@@ -11,7 +11,7 @@ Configuration.for(:item_example) do
 
     events {
       pick [
-        { from: :created, to: :prebuiilded },
+        { from: :created, to: :prebuilded },
         { from: :prebuilded, to: :postbuilded },
         { from: :postbuilded, to: :builded },
         { from: :builded, to: :builded },
