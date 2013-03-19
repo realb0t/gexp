@@ -1,5 +1,13 @@
 module Gexp
   class Command
+
+    # Объектная команда
+    #
+    # Команда выполняющаяся над объектами
+    # игрового мира.
+    #
+    # Выполняет событие FSM у объекта описанное
+    # в параметрах.
     class Object < self
 
       attr_accessor :event # TODO: only getter
@@ -11,6 +19,7 @@ module Gexp
         self.load_object
       end
 
+      # Выполнение команды
       def perform
         self.activate!
         @object.send(self.event)

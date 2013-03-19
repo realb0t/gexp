@@ -3,11 +3,11 @@ module Gexp
     class Example < self
 
       def receive
+        # Start transaction
         @stack.map do |hash, command|
-          # Start transaction
           command.perform
-          # finish transaction
         end
+        # finish transaction
       end
       
     end

@@ -2,6 +2,8 @@
 require 'state_machine/core'
 
 module Gexp
+
+  # ,Базовый класс комманд
   class Command
 
     extend StateMachine::MacroMethods
@@ -35,6 +37,9 @@ module Gexp
       super() # Инициализация StateMachine
     end
 
+    # индетификатор комманды
+    #
+    # @return [String]
     def hash
       # TODO: Заменить на BSON:ObjectId
       [
@@ -44,10 +49,15 @@ module Gexp
       ].join('_')
     end
 
+    # Заглушка для исполнения команды
+    #
+    # @raise NotImplementedError
     def perform
       self.activate!
       self.failure!
-      raise 'Not defined perform method'
+
+      raise NotImplementedError.new \
+        'Not defined perform method'
     end
 
   end

@@ -3,13 +3,13 @@ module Gexp
     class Mongoid < self
 
       def receive
-        @stack.map do |command|
-          Gexp::Mongoid::Transaction.with do |context|
+        Gexp::Mongoid::Transaction.with do |context|
+          @stack.map do |command|
             command.perform
           end
         end
       end
-      
+
     end
   end
 end
