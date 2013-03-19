@@ -46,11 +46,11 @@ describe Gexp::Handler::Transition::Builder do
         provider_param
     end
 
-    it "should must be given result checkers" do
+    it "должен возвращать массив чекеров" do
       subject.checkers.should == result_chekers
     end
 
-    it "should must be given result modifiers" do
+    it "должен возвращать массив модифаеров" do
       subject.modifiers.should == result_modifiers
     end
 

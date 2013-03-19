@@ -33,28 +33,44 @@ module Gexp
     end
 
     def around_handlers(transition, &block)
-      self.check_handlers(transition)
-      self.before_event(transition)
-      block.call
-      self.after_event(transition)
-      self.modify_handlers(transition)
+      # объект команды (как параметр к событию)
+      actor = transition.args.first
+      
+      unless actor_support?(actor)
+        raise "Unsupported actor #{actor.class.name}"
+      end
+
+      self.check_handlers(actor)
+      self.before_event(actor)
+      block.call # выполнение самого перехода
+      self.after_event(actor)
+      self.modify_handlers(actor)
     rescue => e
       raise unless self.on_error(e)
     end
 
+    def actor_support(actor)
+      !actor.nil?
+    end
+
     def on_error(exception)
+      # TODO: Сделать обработку ошибок перехода
     end
 
-    def before_event(transition)
+    def before_event(actor)
+      # TODO: сделать обработку события
     end
 
-    def after_event(transition)
+    def after_event(actor)
+      # TODO: сделать обработку события
     end
 
-    def check_handlers(transition)
+    def check_handlers(actor)
+      # TODO: Сделать обработку чекеров
     end
 
-    def modify_handlers(transition)
+    def modify_handlers(actor)
+      # TODO: Сделать обработку модифаеров
     end
 
   end

@@ -1,7 +1,30 @@
+require 'configuration'
+
+Configuration.for(:item_example) do
+  states {
+    initial :created
+    states {
+      prebuilded nil
+      postbuild nil
+      builded nil
+    }
+
+    events {
+      pick [
+        { from: :created, to: :prebuiilded },
+        { from: :prebuilded, to: :postbuilded },
+        { from: :postbuilded, to: :builded },
+        { from: :builded, to: :builded },
+      ]
+    }
+  }
+end
+
 class ItemExample
 
   include Mongoid::Document
   include Gexp::Item
+  include Gexp::Object
 
   field :state, type: String, default: 'created'
   field :uid, type: String

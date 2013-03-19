@@ -37,9 +37,9 @@ describe Gexp::Receiver do
   context "Успешная обработка комманды" do
   
     it "должна пройти без ошибок" do
-      #lambda {
+      lambda {
         subject.receive
-      #}.should_not raise_error
+      }.should_not raise_error
     end
 
   end

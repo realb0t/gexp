@@ -24,7 +24,7 @@ describe Gexp::Command::Object do
         }
       })
 
-      @object = Object.new
+      @object = ItemExample.new
       @context  = Object.new
 
       stub(ItemExample).find.with('55a55') { @object }
@@ -55,15 +55,23 @@ describe Gexp::Command::Object do
     context "#perform" do
 
       it "При успешном выполнении должен вызывать соотвествующее соьытие у объекта" do
-        mock(@object).pick.once { true }
+        mock(@object).pick.with_any_args.once { true }
         @command.perform
         @command.should be_done
+      end
+
+      context "Без мока" do
+
+        it "могу вызвать команду" do
+          @command.perform 
+        end
+
       end
 
       context "При неуспешном выполнении" do
 
         before do
-          mock(@object).pick.once { raise 'Something wrong' }
+          mock(@object).pick.with_any_args.once { raise 'Something wrong' }
         end
 
         it "Команда должна находится в статусе failed" do

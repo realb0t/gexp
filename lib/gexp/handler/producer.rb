@@ -7,18 +7,21 @@ module Gexp
     # из конфигурационного файл объекта
     class Producer
 
-      def self.namespaces
-        {
-          chekers: Gexp::Handler::Check,
-          modifiers: Gexp::Handler::Modify,
-        }
+      class << self
+
+        # @return [Hash] - хеш классов обработчиков 
+        def namespaces
+          {
+            chekers:   Gexp::Handler::Check,
+            modifiers: Gexp::Handler::Modify,
+          }
+        end
+
       end
 
-      #
-      #
-      # params - handler params { klass, object, args }
-      # type - chekers|modifiers # TODO: избавиться от этого параметра
-      # objects - { object: <...>, subject: <...>, provider: <...>  }
+      # @params [Hash] params  - handler params { klass, object, args }
+      # @params [String] type  - chekers|modifiers # TODO: избавиться от этого параметра
+      # @params [Hash] objects - { object: <...>, subject: <...>, provider: <...>  }
       def initialize(params, type = nil, objects = {})
         @params  = params
         @type    = type
@@ -29,6 +32,9 @@ module Gexp
         end
       end
 
+      # Создает и возвращает класс обработчика
+      #
+      # @return [Gexp::Handler]
       def emit
         args = @params.clone
 
@@ -48,13 +54,19 @@ module Gexp
 
       protected
 
-      def for_klass?
-        @params.size == 3
-      end
+        # Параметры под класс
+        #
+        # @return [Boolean]
+        def for_klass?
+          @params.size == 3
+        end
 
-      def for_caller?
-        @params.size == 2
-      end
+        # Параметры под коллер
+        #
+        # @return [Boolean]
+        def for_caller?
+          @params.size == 2
+        end
 
     end
   end

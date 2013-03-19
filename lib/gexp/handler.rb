@@ -4,11 +4,10 @@ module Gexp
 
     attr_accessor :user, :object
 
-    #
-    #
-    # object - объект над котым производится обработка
-    #
-    #
+    # @params [Object] object - объект над котым производится обработка
+    # @params [Hash] params
+    # @params [Array] objects
+    # @params [] 
     def initialize(object = nil, params = {}, objects = nil, full_params = nil)
       @object      = object
       @params      = params
@@ -18,7 +17,8 @@ module Gexp
     end
 
     def process(params = nil)
-      raise 'Override process handler method'
+      raise NotImplementedError.new \
+        'Override process handler method'
     end
 
   end

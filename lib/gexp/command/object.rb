@@ -22,7 +22,7 @@ module Gexp
       # Выполнение команды
       def perform
         self.activate!
-        @object.send(self.event)
+        @object.send(self.event, self)
         self.complete!
       rescue => e
         self.errors << e

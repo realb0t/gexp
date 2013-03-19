@@ -24,6 +24,7 @@ Gem::Specification.new do |gem|
   gem.add_development_dependency "rr"
   gem.add_development_dependency "rake"
   gem.add_development_dependency "pry"
+  gem.add_development_dependency "configuration"
   gem.add_development_dependency "state_machine"
   gem.add_development_dependency "activesupport"
   gem.add_development_dependency 'bson', '= 1.8.0'
