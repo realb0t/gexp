@@ -6,6 +6,9 @@ module Gexp
       # в зависимости от перехода FSM (StateMachine)
       class Builder < self
 
+        # XXX: метод не используется
+        # тк определение событий хранит
+        # только информацию по переходам
         def events(last_key)
           event = self.config.to_hash[:states][:events][@transition.event.to_sym]
           (event || {})[last_key] || []
@@ -20,11 +23,11 @@ module Gexp
         end
 
         def checkers
-          events(:check) + transitions(:check)
+          transitions(:check)
         end
 
         def modifiers
-          events(:modify) + transitions(:modify)
+          transitions(:modify)
         end
 
       end

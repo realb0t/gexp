@@ -63,20 +63,19 @@ describe Gexp::Handler::Transition::Builder do
         conf = Object.new
         stub(conf).to_hash { { states: {
           events: {
-            place: {
-              check: [
-                [ :resources, :subject, { wood: 5, energy: 1 } ],
-                [ :subject, [ :place_allowed?, :not_blocked? ] ],
-              ],
-              modify: [
-                [ :object, [ :change_tile_type! ] ]
-              ]
-            },
-            sell: {
-              check: [
-                [ :object, [ :has_current_user? ] ]
-              ]
-            }
+            place: [
+              { from: :created, to: :prebuilded },
+            ],
+            pick: [
+              { from: :prebuilded, to: :postbuilded },
+              { from: :postbuilded, to: :builded },
+              { from: :builded, to: :builded },
+            ],
+            sell: [
+              { from: :prebuilded, to: :selled },
+              { from: :postbuilded, to: :selled },
+              { from: :builded, to: :selled },
+            ]
           },
           transitions: {
             created: {
@@ -98,14 +97,11 @@ describe Gexp::Handler::Transition::Builder do
 
       let(:result_chekers) { 
         [
-          [ :resources, :subject, { wood: 5, energy: 1 } ],
-          [ :subject, [ :place_allowed?, :not_blocked? ] ],
           [ :shared_resources, :subject, { 0 => 5 } ],
         ] 
       }
       let(:result_modifiers) { 
         [
-          [ :object, [ :change_tile_type! ] ],
           [ :shared_resources, :subject, { 0 => 5 } ],
           [ :resources, :subject, { wood: -5, energy: -1 } ],
           [ :shared_resources, :subject, { 0 => -5 } ]
