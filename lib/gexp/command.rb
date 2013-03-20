@@ -12,6 +12,12 @@ module Gexp
     attr_accessor :context
     attr_accessor :params
 
+    attr_accessor :event # TODO: only getter
+
+    attr_accessor :object
+    attr_accessor :subject
+    attr_accessor :provider
+
     state_machine :initial => :new do
       state :active
       state :done

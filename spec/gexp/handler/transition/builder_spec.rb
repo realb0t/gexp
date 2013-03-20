@@ -5,32 +5,29 @@ describe Gexp::Handler::Transition::Builder do
 
   shared_examples_for Gexp::Handler::Transition::Builder do
 
-    # let(:to) { to }
+    let(:object) do 
+      object = ItemExample.new
+      mock(object).config { config }
+      object
+    end
 
-    # let(:from) { from }
-
-    # let(:event) { event }
+    let(:actor) {
+      actor = Object.new
+      stub(actor).object { object }
+      stub(actor).subject {}
+      stub(actor).provider {}
+      actor
+    }
 
     let(:transition) do
       transition = Object.new
       stub(transition).to_name { to }
       stub(transition).from_name { from }
       stub(transition).event { event }
+      stub(transition).args { [ actor ] }
 
       transition
     end
-
-    # let(:config) do
-    #   config
-    # end
-
-    # let(:result_chekers) do
-    #   result_chekers
-    # end
-
-    # let(:result_modifiers) do
-    #   result_modifiers
-    # end
 
     let(:object_param) do
       object = Object.new
@@ -63,7 +60,8 @@ describe Gexp::Handler::Transition::Builder do
       let(:from) { :created }
       let(:event) { :place }
       let(:config) do 
-        {
+        conf = Object.new
+        stub(conf).to_hash { { states: {
           events: {
             place: {
               check: [
@@ -95,7 +93,7 @@ describe Gexp::Handler::Transition::Builder do
               }
             }
           }
-        }
+        } } }
       end
 
       let(:result_chekers) { 

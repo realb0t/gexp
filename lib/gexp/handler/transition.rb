@@ -2,7 +2,7 @@ module Gexp
   class Handler
     class Transition
 
-      attr_accessor :transition, :config, :object, :subject, :provider
+      attr_accessor :transition, :object, :subject, :provider
 
       def self.namespaces
         @namespaces ||= {
@@ -20,12 +20,33 @@ module Gexp
       #
       def initialize(transition, object = nil, subject = nil, provider = nil)
         @transition = transition
+        actor       = @transition.args.first
 
-        @object     = object
-        @subject    = subject
-        @provider   = provider
+        unless self.actor_support?(actor)
+          raise "Unsupported actor type #{@actor.class.name}"
+        else
+          @actor = actor
+        end
+      end
 
-        @config     = @object.config
+      def object
+        @object   ||= @actor.object
+      end
+
+      def subject
+        @subject  ||= @actor.subject
+      end
+
+      def provider
+        @provider ||= @actor.provider
+      end
+
+      def config
+        @config   ||= self.object.config
+      end
+
+      def actor_support?(actor)
+        !actor.nil?
       end
 
       # Создает объект обработчика

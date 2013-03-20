@@ -10,9 +10,6 @@ module Gexp
     # в параметрах.
     class Object < self
 
-      attr_accessor :event # TODO: only getter
-      attr_accessor :object
-
       def initialize(params = {})
         super
         @event = @params[:event]
