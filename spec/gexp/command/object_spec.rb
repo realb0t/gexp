@@ -5,9 +5,8 @@ describe Gexp::Command::Object do
 
   context "Команда pick на объекте у себя в локации" do
 
-    before do
-      @user    = UserExample.new
-      @request = HashWithIndifferentAccess.new({ 
+    let(:request) do
+      HashWithIndifferentAccess.new({ 
         :params => {
           :sended_at => 123456789.012,
           :create_at => 123456789.012,
@@ -23,66 +22,68 @@ describe Gexp::Command::Object do
           }]
         }
       })
+    end
 
-      @object = ItemExample.new
-      @context  = Object.new
+    let(:user) { UserExample.new }
+    let(:object) { ItemExample.new }
+    let(:context) { Object.new }
+    let(:command) do
+      command = Gexp::Command::Object.new request[:params][:commands].first
+      command.context = context
+      command
+    end
 
-      stub(ItemExample).find.with('55a55') { @object }
-
-      lambda {
-        @command = Gexp::Command::Object.new @request[:params][:commands].first
-        @command.context = @context
-      }.should_not raise_error
-
+    before do
+      stub(ItemExample).find.with('55a55') { object }
     end
 
     it "Команда должна загружать объекты" do
-      @command.object.should == @object
+      command.object.should == object
     end
 
     it "Для конмады определенно событие" do
-      @command.event.should == :pick
+      command.event.should == :pick
     end
 
     it "Нельзя (так просто взять и) создать команду без параметра-объекта" do
-      params = @request[:params][:commands].first
+      params = request[:params][:commands].first
       params.delete(:objects)
       lambda {
-        @command = Gexp::Command::Object.new params
+        command = Gexp::Command::Object.new params
       }.should raise_error Regexp.new("Can't find object")
     end
 
     context "#perform" do
 
       it "должен вызывать соотвествующее соьытие у объекта" do
-        mock(@object).pick.with_any_args.once { true }
-        @command.perform
-        @command.should be_done
+        mock(object).pick.with_any_args.once { true }
+        command.perform
+        command.should be_done
       end
 
       context "при успешном выполнении команды" do
 
         it "до вызова объект в первоначальном состоянии" do
-          @object.should be_created
+          object.should be_created
         end
 
         it "ошибок быть не должно" do
-          @command.perform
-          @command.errors.should be_empty
+          command.perform
+          command.errors.should be_empty
         end
 
         it "состояние у объекта меняется" do
-          @command.perform
-          @object.should be_prebuilded
+          command.perform
+          object.should be_prebuilded
         end
 
         it "у объекта вызываются калбеки" do
-          mock(@object).modify_handlers(anything)
-          mock(@object).check_handlers(anything)
-          mock(@object).before_event(anything)
-          mock(@object).after_event(anything)
+          mock(object).modify_handlers(anything)
+          mock(object).check_handlers(anything)
+          mock(object).before_event(anything)
+          mock(object).after_event(anything)
 
-          @command.perform
+          command.perform
         end
 
         it "вызываются конструкторы обработчиков"
@@ -102,18 +103,18 @@ describe Gexp::Command::Object do
       context "При неуспешном выполнении" do
 
         before do
-          mock(@object).pick.with_any_args.once { raise 'Something wrong' }
+          mock(object).pick.with_any_args.once { raise 'Something wrong' }
         end
 
         it "Команда должна находится в статусе failed" do
-          lambda { @command.perform }.should_not raise_error
-          @command.should be_failed
+          lambda { command.perform }.should_not raise_error
+          command.should be_failed
         end
 
         it "исключение должно агрегироваться в #errors" do
-          @command.perform
-          @command.errors.should_not be_empty
-          @command.errors.last.message.should == 'Something wrong'
+          command.perform
+          command.errors.should_not be_empty
+          command.errors.last.message.should == 'Something wrong'
         end
 
       end
