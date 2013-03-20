@@ -4,9 +4,15 @@ Configuration.for(:item_example) do
   states {
     initial :created
     states {
-      prebuilded nil
-      postbuild nil
-      builded nil
+      prebuilded [
+        
+      ]
+      postbuild [
+        
+      ]
+      builded [
+        
+      ]
     }
 
     events {
