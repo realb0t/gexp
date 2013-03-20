@@ -65,8 +65,8 @@ describe Gexp::Handler::Transition::Builder do
           events: {
             place: {
               check: [
-                [ :resources, :object, { wood: 5, energy: 1 } ],
-                [ :object, [ :place_allowed?, :not_blocked? ] ],
+                [ :resources, :subject, { wood: 5, energy: 1 } ],
+                [ :subject, [ :place_allowed?, :not_blocked? ] ],
               ],
               modify: [
                 [ :object, [ :change_tile_type! ] ]
@@ -83,12 +83,12 @@ describe Gexp::Handler::Transition::Builder do
               selled: { },
               prebuilded: {
                 check: [
-                  [ :shared_resources, :object, { 0 => 5 } ]
+                  [ :shared_resources, :subject, { 0 => 5 } ]
                 ],
                 modify: [
-                  [ :shared_resources, :object, { 0 => 5 } ],
-                  [ :resources, :object, { wood: -5, energy: -1 } ],
-                  [ :shared_resources, :object, { 0 => -5 } ]
+                  [ :shared_resources, :subject, { 0 => 5 } ],
+                  [ :resources, :subject, { wood: -5, energy: -1 } ],
+                  [ :shared_resources, :subject, { 0 => -5 } ]
                 ]
               }
             }
@@ -98,17 +98,17 @@ describe Gexp::Handler::Transition::Builder do
 
       let(:result_chekers) { 
         [
-          [ :resources, :object, { wood: 5, energy: 1 } ],
-          [ :object, [ :place_allowed?, :not_blocked? ] ],
-          [ :shared_resources, :object, { 0 => 5 } ],
+          [ :resources, :subject, { wood: 5, energy: 1 } ],
+          [ :subject, [ :place_allowed?, :not_blocked? ] ],
+          [ :shared_resources, :subject, { 0 => 5 } ],
         ] 
       }
       let(:result_modifiers) { 
         [
           [ :object, [ :change_tile_type! ] ],
-          [ :shared_resources, :object, { 0 => 5 } ],
-          [ :resources, :object, { wood: -5, energy: -1 } ],
-          [ :shared_resources, :object, { 0 => -5 } ]
+          [ :shared_resources, :subject, { 0 => 5 } ],
+          [ :resources, :subject, { wood: -5, energy: -1 } ],
+          [ :shared_resources, :subject, { 0 => -5 } ]
         ]
       }
       let(:subject_param) { Object.new }
