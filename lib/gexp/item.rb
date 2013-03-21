@@ -34,7 +34,7 @@ module Gexp
 
     def around_handlers(transition, &block)
       # объект команды (как параметр к событию)
-      transition = Gexp::Handler::Transition.new(transition)
+      transition = Gexp::Handler::Transition::Builder.new(transition)
 
       self.check_handlers(transition)
       self.before_event(transition)
@@ -58,10 +58,12 @@ module Gexp
     end
 
     def check_handlers(transition)
+      transition.checkers
       # TODO: Сделать обработку чекеров
     end
 
     def modify_handlers(transition)
+      transition.modifiers
       # TODO: Сделать обработку модифаеров
     end
 

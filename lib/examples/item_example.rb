@@ -3,16 +3,18 @@ require 'configuration'
 Configuration.for(:item_example) do
   states {
     initial :created
-    states {
-      prebuilded [
-        
-      ]
-      postbuild [
-        
-      ]
-      builded [
-        
-      ]
+    states { # TODO!: Переименовать в transitions
+             # для этого нужны изменения в Gexp::Handler::Transition::Builder
+      created {
+        #prebuilder {
+        #  modify [
+        #    [ :resources, :subject, { wood: -5, energy: -1 } ],
+        #  ]
+        #}
+      }
+      prebuilded {}
+      postbuild {}
+      builded {}
     }
 
     events {

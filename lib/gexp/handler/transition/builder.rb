@@ -14,12 +14,37 @@ module Gexp
           (event || {})[last_key] || []
         end
 
-        def transitions(last_key)
+        # Возвращает конфиги для создания обработчиков
+        #
+        # @params [Symbol] last_key - [ :check | :modify ]
+        # @returns [Array]
+        def conf_handlers(last_key)
           from        = self.transition.from_name
           to          = self.transition.to_name
-          from_branch = self.config.to_hash[:states][:transitions][from] || {}
+          from_branch = self.config.to_hash[:states][:states][from] || {}
           
-          (from_branch[to] || {})[last_key] || []
+          configs     = (from_branch[to] || {})[last_key] || []
+        end
+
+        def transitions(last_key)
+          return conf_handlers(last_key)
+          
+          type = last_key == :check ? :chekers : :modifuers
+          
+          observers = config.map do |params|
+            producer = Gexp::Handler::Producer.new(params, type, { 
+              object: self.object,
+              subject: self.subject,
+              provider: self.proivider,
+            })
+
+            producer.emit
+          end
+
+          require 'pry'
+          binding.pry
+
+          observers
         end
 
         def checkers

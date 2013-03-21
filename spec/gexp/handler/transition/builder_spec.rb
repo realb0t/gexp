@@ -77,7 +77,7 @@ describe Gexp::Handler::Transition::Builder do
               { from: :builded, to: :selled },
             ]
           },
-          transitions: {
+          states: { # TODO!: Переименовать в transitions
             created: {
               selled: { },
               prebuilded: {
