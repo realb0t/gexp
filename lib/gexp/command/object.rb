@@ -22,9 +22,18 @@ module Gexp
         @object.send(self.event, self)
         self.complete!
       rescue => e
-        self.errors << e
         self.failure!
+        self.errors << e
+        raise e
       end
+
+      def subject
+        self.context.user
+      end
+
+      #def provider
+      #  self.context.friend
+      #end
 
       protected
 

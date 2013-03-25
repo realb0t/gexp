@@ -44,11 +44,11 @@ describe Gexp::Handler::Transition::Builder do
     end
 
     it "должен возвращать массив чекеров" do
-      subject.checkers.should == result_chekers
+      subject.conf_handlers(:check).should == result_chekers
     end
 
     it "должен возвращать массив модифаеров" do
-      subject.modifiers.should == result_modifiers
+      subject.conf_handlers(:modify).should == result_modifiers
     end
 
   end

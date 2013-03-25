@@ -12,7 +12,17 @@ describe Gexp::StateDefinition::StateMachine do
   it "should be definition states" do
     SubjectClass.instance_eval do
       self.define_state_by({
-        states:  { first: nil, second: nil, last: nil },
+        states:  { 
+          first: {
+            second: []
+          }, 
+          second: {
+            last: []
+          }, 
+          last: {
+            last: []
+          } 
+        },
         initial: :created,
         events:  {
           do_first: [{

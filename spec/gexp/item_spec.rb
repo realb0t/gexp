@@ -31,16 +31,35 @@ describe Gexp::Item do
     stub(ItemExample).find('55a55') { subject }
   end
 
-  it "" do
-    mock(subject).check_handlers(anything)
-    mock(subject).before_event(anything)
-    mock(subject).after_event(anything)
-    mock(subject).modify_handlers(anything) { |transition|
-      #require 'pry'
-      #binding.pry
-    }
+  it { subject.should be_created }
 
+  it "если ресурсы в наличии" do
+    user.energy = 5
+    user.wood   = 25
     receiver.receive
+    subject.reload
+    subject.should be_prebuilded
+    user.energy.should be 5 - 1
+    user.wood.should be 25 - 5
+  end
+
+  it "если нехватает энергии" do
+    user.energy = 0
+    user.wood   = 25
+    lambda { receiver.receive }.should raise_error Regexp.new("out_of_resource-energy")
+    subject.reload
+    user.energy.should be 0
+    user.wood.should be 25
+  end
+
+  it "если нехватает дерева" do
+    user.energy = 5
+    user.wood   = 4
+    subject.should be_created
+    lambda { receiver.receive }.should raise_error Regexp.new("out_of_resource-wood")
+    subject.reload
+    user.energy.should be 5
+    user.wood.should be 4
   end
 
 end

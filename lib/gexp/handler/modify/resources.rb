@@ -49,6 +49,7 @@ module Gexp
         def process(params = {}, &block)
           @changes = {}
           @params = params if @params.empty?
+          @params = @params.first if @params.is_a?(Array)
           @params.each do |resource, value|
             if @user.respond_to?(resource.to_sym)
 

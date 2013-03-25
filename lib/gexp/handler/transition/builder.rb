@@ -22,27 +22,24 @@ module Gexp
           from        = self.transition.from_name
           to          = self.transition.to_name
           from_branch = self.config.to_hash[:states][:states][from] || {}
-          
+
           configs     = (from_branch[to] || {})[last_key] || []
         end
 
         def transitions(last_key)
-          return conf_handlers(last_key)
-          
-          type = last_key == :check ? :chekers : :modifuers
-          
-          observers = config.map do |params|
+          conf = conf_handlers(last_key)
+          type = last_key == :check ? :checkers : :modifiers
+
+          observers = conf.map do |params|
+
             producer = Gexp::Handler::Producer.new(params, type, { 
               object: self.object,
               subject: self.subject,
-              provider: self.proivider,
+              provider: self.provider,
             })
 
             producer.emit
           end
-
-          require 'pry'
-          binding.pry
 
           observers
         end

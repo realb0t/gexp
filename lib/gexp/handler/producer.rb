@@ -40,7 +40,9 @@ module Gexp
 
         if for_klass?
           superclass = self.class.namespaces[@type]
-          subclass   = args.shift.to_s.classify
+          subclass   = args.shift.to_s.humanize
+
+          # TODO: Сделать проверку существования класса
           klass      = superclass.const_get(subclass)
         else
           klass  = Gexp::Handler::Caller

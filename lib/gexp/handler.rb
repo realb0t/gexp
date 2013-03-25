@@ -2,7 +2,7 @@ module Gexp
   class Handler
     # Базовый класс обработчиков
 
-    attr_accessor :user, :object
+    attr_accessor :user, :object, :params, :objects
 
     # @params [Object] object - объект над котым производится обработка
     # @params [Hash] params
@@ -12,7 +12,7 @@ module Gexp
       @object      = object
       @params      = params
       @objects     = objects
-      @user        = (@objects || {})[:self]
+      @user        = (@objects || {})[:subject]
       @full_params = full_params
     end
 

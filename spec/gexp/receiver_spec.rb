@@ -36,6 +36,11 @@ describe Gexp::Receiver do
 
   context "Успешная обработка комманды" do
   
+    before {
+      user.energy = 1
+      user.wood   = 5
+    }
+
     it "должна пройти без ошибок" do
       lambda {
         subject.receive

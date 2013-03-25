@@ -27,12 +27,14 @@ module Gexp
               smc = self
 
               # State definition
-              sm[:states].each do |name, methods|
-                smc.state name do
-                  (methods || []).each do |method|
-                    self.send(method)
-                  end
-                end
+              sm[:states].each do |name, hash|
+                smc.state name.to_sym
+              #  method = hash
+              #  smc.state name do
+              #    (methods || []).each do |method|
+              #      self.send(method)
+              #    end
+              #  end
               end
 
               # Events definition

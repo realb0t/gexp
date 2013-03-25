@@ -24,12 +24,18 @@ describe Gexp::Command::Object do
       })
     end
 
-    let(:user) { UserExample.new }
-    let(:object) { ItemExample.new }
     let(:context) { Object.new }
+    let(:object) { ItemExample.new }
+    let(:user) do 
+      user = UserExample.new
+      user.energy = 1
+      user.wood = 5
+      user
+    end
     let(:command) do
       command = Gexp::Command::Object.new request[:params][:commands].first
       command.context = context
+      stub(command).subject { user }
       command
     end
 
@@ -107,12 +113,12 @@ describe Gexp::Command::Object do
         end
 
         it "Команда должна находится в статусе failed" do
-          lambda { command.perform }.should_not raise_error
+          lambda { command.perform }.should raise_error
           command.should be_failed
         end
 
         it "исключение должно агрегироваться в #errors" do
-          command.perform
+          lambda { command.perform }.should raise_error
           command.errors.should_not be_empty
           command.errors.last.message.should == 'Something wrong'
         end

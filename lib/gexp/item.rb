@@ -32,9 +32,9 @@ module Gexp
       end
     end
 
-    def around_handlers(transition, &block)
+    def around_handlers(fsm_transition, &block)
       # объект команды (как параметр к событию)
-      transition = Gexp::Handler::Transition::Builder.new(transition)
+      transition = Gexp::Handler::Transition::Builder.new(fsm_transition)
 
       self.check_handlers(transition)
       self.before_event(transition)
@@ -42,7 +42,7 @@ module Gexp
       self.after_event(transition)
       self.modify_handlers(transition)
     rescue => e
-      raise unless self.on_error(e)
+      raise e unless self.on_error(e)
     end
 
     def on_error(exception)
@@ -58,13 +58,15 @@ module Gexp
     end
 
     def check_handlers(transition)
-      transition.checkers
-      # TODO: Сделать обработку чекеров
+      transition.checkers.each { |handler|
+        handler.process(*handler.params)
+      }
     end
 
     def modify_handlers(transition)
-      transition.modifiers
-      # TODO: Сделать обработку модифаеров
+      transition.modifiers.each { |handler|
+        handler.process(*handler.params)
+      }
     end
 
   end
